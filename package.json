@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "composer": "wp-env run cli --env-cwd=wp-content/plugins/pdf-secure composer"
+    }
+}
