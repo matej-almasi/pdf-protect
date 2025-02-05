@@ -4,25 +4,27 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
-add_filter( 'woocommerce_email_customer_details', 'remove_download_links_from_email', 10, 3 );
+require_once plugin_dir_path( __FILE__ ) . 'generate-drmed-pdf.php';
 
-function remove_download_links_from_email( $order, $sent_to_admin, $plain_text ) {
-    if ( $order->has_downloadable_item() ) {
-        // Add logic here to modify or remove download-related sections
-        remove_action( 'woocommerce_order_item_meta_end', 'woocommerce_email_downloads', 10 );
+
+add_action( 'woocommerce_download_product', 'intercept_and_serve_drmed_pdf', 10, 6 );
+
+function intercept_and_serve_drmed_pdf( $user_email, $order_key, $product_id, $user_id, $download_id, $order_id ) {
+    // Get order and product objects
+    $order = wc_get_order( $order_id );
+    $product = wc_get_product( $product_id );
+
+    // Get the file URL (WooCommerce stores downloadable files as an array)
+    $downloads = $product->get_downloads();
+    if ( isset( $downloads[ $download_id ] ) ) {
+        $file_url = $downloads[ $download_id ]->get_file();
+        $file_path = get_attached_file( attachment_url_to_postid( $file_url ) ); // Resolve actual file path
+
+        // Ensure the file exists and is a PDF
+        if ( $file_path && pathinfo( $file_path, PATHINFO_EXTENSION ) === 'pdf' ) {
+            // Serve DRM-protected file dynamically
+            serve_drmed_pdf( $file_path, $order, $user_email );
+            exit; // Prevent default WooCommerce handling
+        }
     }
-}
-
-add_filter( 'woocommerce_order_get_downloadable_items', 'customize_downloadable_links', 10, 2 );
-
-function customize_downloadable_links( $downloads, $order ) {
-    foreach ( $downloads as $download_id => $download ) {
-        // Customize the download URL
-        $custom_url = generate_custom_download_link( $download['file'], $order );
-
-        // Replace the original download link
-        $downloads[ $download_id ]['download_url'] = $custom_url;
-    }
-
-    return $downloads;
 }
