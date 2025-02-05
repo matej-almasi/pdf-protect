@@ -7,7 +7,7 @@
             "label": "Run Woo Server",
             "type": "shell",
             "command": "wp-env",
-            "args": ["start", "--xdbeg"],
+            "args": ["start", "--xdebug"],
             "presentation": {
                 "reveal": "always",
                 "focus": true,
