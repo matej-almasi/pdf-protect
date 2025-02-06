@@ -13,7 +13,7 @@ function serve_drmed_pdf( $original_file_path, $order, $user_email ) {
     // Initialize FPDI
     $pdf = new Fpdi();
     $pdf->AddPage();
-    $pdf->setSourceFile( $original_file_path );
+    $page_count = $pdf->setSourceFile( $original_file_path );
 
     // Import first page
     $tplId = $pdf->importPage( 1 );
@@ -25,9 +25,16 @@ function serve_drmed_pdf( $original_file_path, $order, $user_email ) {
     $pdf->SetXY( 10, 10 );
     $pdf->MultiCell( 0, 10, $drm_text );
 
+    // Append the rest of the original PDF pages
+    for ($i = 2; $i <= $page_count; $i++) {
+        $pdf->AddPage();
+        $tpl = $pdf->importPage( $i );
+        $pdf->useTemplate($tpl, 0, 0, 210 );
+    }
+
     // Serve the modified file as a response
     header('Content-Type: application/pdf');
     header('Content-Disposition: attachment; filename="protected.pdf"');
-    $pdf->Output( 'I' ); // Inline display; use 'D' to force download
+    $pdf->Output( 'D' ); // Inline display; use 'D' to force download
     exit;
 }
