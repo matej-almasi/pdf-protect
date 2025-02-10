@@ -6,9 +6,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use setasign\Fpdi\Fpdi;
 
-function serve_drmed_pdf( $original_file_path, $order, $user_email ) {
-    $order_id = $order->get_id();
-    $drm_text = "Purchased by: $user_email\nOrder ID: $order_id";
+// Include the DRM text template
+require_once 'drm-text-template.php';
+
+function serve_drmed_pdf( $original_file_path, $order ) {
+    $drm_text = generate_drm_text( $order );
 
     // Initialize FPDI
     $pdf = new Fpdi();
@@ -16,8 +18,8 @@ function serve_drmed_pdf( $original_file_path, $order, $user_email ) {
     $page_count = $pdf->setSourceFile( $original_file_path );
 
     // Import first page
-    $tplId = $pdf->importPage( 1 );
-    $pdf->useTemplate( $tplId, 0, 0, 210 );
+    $tpl = $pdf->importPage( 1 );
+    $pdf->useTemplate( $tpl );
 
     // Add DRM text on page 2
     $pdf->AddPage();
@@ -29,12 +31,11 @@ function serve_drmed_pdf( $original_file_path, $order, $user_email ) {
     for ($i = 2; $i <= $page_count; $i++) {
         $pdf->AddPage();
         $tpl = $pdf->importPage( $i );
-        $pdf->useTemplate($tpl, 0, 0, 210 );
+        $pdf->useTemplate($tpl, 0, 0 );
     }
 
     // Serve the modified file as a response
-    header('Content-Type: application/pdf');
-    header('Content-Disposition: attachment; filename="protected.pdf"');
-    $pdf->Output( 'D' ); // Inline display; use 'D' to force download
+    $file_name = pathinfo( $original_file_path, PATHINFO_FILENAME );
+    $pdf->Output( 'D', $file_name . '.pdf');
     exit;
 }

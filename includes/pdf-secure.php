@@ -23,7 +23,7 @@ function intercept_and_serve_drmed_pdf( $user_email, $order_key, $product_id, $u
         // Ensure the file exists and is a PDF
         if ( $file_path && pathinfo( $file_path, PATHINFO_EXTENSION ) === 'pdf' ) {
             // Serve DRM-protected file dynamically
-            serve_drmed_pdf( $file_path, $order, $user_email );
+            serve_drmed_pdf( $file_path, $order);
             exit; // Prevent default WooCommerce handling
         }
     }
