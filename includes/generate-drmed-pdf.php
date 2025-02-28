@@ -25,10 +25,10 @@ function serve_drmed_pdf( $original_file_path, $order ) {
     $pdf->useTemplate( $tpl );
 
     // Add DRM text on page 2
+    $pdf->SetMargins(20, 20);
     $pdf->AddPage();
     $pdf->AddFont('DejaVu','','DejaVuSans.ttf', true);
-    $pdf->SetFont( 'DejaVu', '', 12 );
-    $pdf->SetXY( 10, 10 );
+    $pdf->SetFont( 'DejaVu', '', 10 );
     $pdf->MultiCell( 0, 10, $drm_text );
 
     // Append the rest of the original PDF pages
