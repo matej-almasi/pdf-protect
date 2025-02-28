@@ -10,6 +10,9 @@ use setasign\Fpdi\Tfpdf;
 require_once 'drm-text-template.php';
 
 function serve_drmed_pdf( $original_file_path, $order ) {
+    // Start output buffering
+    ob_start();
+
     $drm_text = generate_drm_text( $order );
 
     // Initialize FPDI
@@ -34,6 +37,9 @@ function serve_drmed_pdf( $original_file_path, $order ) {
         $tpl = $pdf->importPage( $i );
         $pdf->useTemplate($tpl, 0, 0 );
     }
+
+    // Clean output buffer
+    ob_clean();
 
     // Serve the modified file as a response
     $file_name = pathinfo( $original_file_path, PATHINFO_FILENAME );
