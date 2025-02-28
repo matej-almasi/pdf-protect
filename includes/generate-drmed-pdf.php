@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
-use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\Tfpdf;
 
 // Include the DRM text template
 require_once 'drm-text-template.php';
@@ -13,7 +13,7 @@ function serve_drmed_pdf( $original_file_path, $order ) {
     $drm_text = generate_drm_text( $order );
 
     // Initialize FPDI
-    $pdf = new Fpdi();
+    $pdf = new Tfpdf\Fpdi();
     $pdf->AddPage();
     $page_count = $pdf->setSourceFile( $original_file_path );
 
@@ -23,7 +23,8 @@ function serve_drmed_pdf( $original_file_path, $order ) {
 
     // Add DRM text on page 2
     $pdf->AddPage();
-    $pdf->SetFont( 'Arial', '', 12 );
+    $pdf->AddFont('DejaVu','','DejaVuSans.ttf', true);
+    $pdf->SetFont( 'DejaVu', '', 12 );
     $pdf->SetXY( 10, 10 );
     $pdf->MultiCell( 0, 10, $drm_text );
 

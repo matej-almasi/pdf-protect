@@ -25,7 +25,5 @@ function generate_drm_text($order) {
     . "kontaktovať na adrese \n"
     . "$support_email";
 
-    $text = iconv("UTF-8", "ISO-8859-1//TRANSLIT", $text);
-
     return $text;
 }
