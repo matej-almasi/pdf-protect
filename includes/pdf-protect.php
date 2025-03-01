@@ -60,7 +60,6 @@ function intercept_and_serve_protected_pdf( $user_email, $order_key, $product_id
                 sprintf('Skipping non-PDF file: %s', $file_path),
                 array(
                     'source'     => 'pdf-protect',
-                    'backtrace'  => false,
                     'order_id'   => $order_id,
                     'product_id' => $product_id,
                     'user_id'    => $user_id
@@ -74,10 +73,9 @@ function intercept_and_serve_protected_pdf( $user_email, $order_key, $product_id
 
         // Log success
         $logger->info(
-            'Served protected PDF',
+            sprintf('Served protected PDF to User ID: %d', $user_id),
             array(
                 'source'     => 'pdf-protect',
-                'backtrace'  => false,
                 'order_id'   => $order_id,
                 'product_id' => $product_id,
                 'user_id'    => $user_id
@@ -95,11 +93,11 @@ function intercept_and_serve_protected_pdf( $user_email, $order_key, $product_id
             ),
             array(
                 'source'     => 'pdf-protect',
-                'backtrace'  => true,
                 'order_id'   => $order_id,
                 'product_id' => $product_id,
                 'user_id'    => $user_id,
-                'user_email' => $user_email
+                'user_email' => $user_email,
+                'backtrace'  => true
             )
         );
         
