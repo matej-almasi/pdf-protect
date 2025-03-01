@@ -9,6 +9,8 @@ require_once plugin_dir_path( __FILE__ ) . 'generate-drmed-pdf.php';
 add_action( 'woocommerce_download_product', 'intercept_and_serve_drmed_pdf', 10, 6 );
 
 function intercept_and_serve_drmed_pdf( $user_email, $order_key, $product_id, $user_id, $download_id, $order_id ) {
+    $logger = wc_get_logger();
+    
     try {
         // Get order and product objects
         $order = wc_get_order( $order_id );
@@ -51,34 +53,42 @@ function intercept_and_serve_drmed_pdf( $user_email, $order_key, $product_id, $u
         // Serve DRM-protected file dynamically
         serve_drmed_pdf( $file_path, $order );
 
-        // Log successful access attempt
-        error_log( sprintf(
-            '[PDF Secure] Serving DRM-protected PDF for Order: %d, Product: %d, User: %d, Email: %s',
-            $order_id,
-            $product_id,
-            $user_id,
-            $user_email
-            ) );
-            
+        // Log success
+        $logger->info(
+            'Served protected PDF',
+            array(
+                'source'     => 'pdf-secure',
+                'backtrace'  => false,
+                'order_id'   => $order_id,
+                'product_id' => $product_id,
+                'user_id'    => $user_id
+            )
+        );
+
         exit; // Prevent default WooCommerce handling
         
-        } catch ( Exception $e ) {
-            // Log the error
-            error_log( sprintf(
-                '[PDF Secure] Error: %s when serving protected PDF for Order: %d, Product: %d, User: %d, Email: $s',
-                $e->getMessage(),
-                $order_id,
-                $product_id,
-                $user_id,
-                $user_email
-                ) );
-            
-            // Show user-friendly error message
-            wp_die(
-                __( 'Sorry, there was an error processing your download request. Please contact support.', 'pdf-secure' ),
-                __( 'Download Error', 'pdf-secure' ),
-                array( 'response' => 404 )
-            );
-        }
+    } catch ( Exception $e ) {
+        // Log the error using WC_Logger
+        $logger->error(
+            sprintf(
+                'Failed to serve protected PDF: %s',
+                $e->getMessage()
+            ),
+            array(
+                'source'     => 'pdf-secure',
+                'backtrace'  => true,
+                'order_id'   => $order_id,
+                'product_id' => $product_id,
+                'user_id'    => $user_id,
+                'user_email' => $user_email
+            )
+        );
         
+        // Show user-friendly error message
+        wp_die(
+            __( 'Sorry, there was an error processing your download request. Please contact support.', 'pdf-secure' ),
+            __( 'Download Error', 'pdf-secure' ),
+            array( 'response' => 404 )
+        );
+    }
 }
