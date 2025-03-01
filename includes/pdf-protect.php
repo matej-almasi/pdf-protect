@@ -97,8 +97,8 @@ function intercept_and_serve_protected_pdf( $user_email, $order_key, $product_id
         
         // Show user-friendly error message
         wp_die(
-            __( 'Sorry, there was an error processing your download request. Please contact support.', 'pdf-protect' ),
-            __( 'Download Error', 'pdf-protect' ),
+            'Ospravedlňujeme sa, pri spracovaní požiadavku na stiahnutie došlo k chybe. Prosím, kontaktujte podporu na adrese: support@templateshop.com',
+            'Chyba :(',
             array( 'response' => 404 )
         );
     }
