@@ -7,13 +7,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 use setasign\Fpdi\Tfpdf;
 
 // Include the DRM text template
-require_once 'drm-text-template.php';
+require_once 'generate-data-rights.php';
 
-function serve_drmed_pdf( $original_file_path, $order ) {
+function serve_protected_pdf( $original_file_path, $order ) {
     // Start output buffering
     ob_start();
 
-    $drm_text = generate_drm_text( $order );
+    $drm_text = generate_data_rights( $order );
 
     // Initialize FPDI
     $pdf = new Tfpdf\Fpdi();

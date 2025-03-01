@@ -4,11 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
-require_once plugin_dir_path( __FILE__ ) . 'generate-drmed-pdf.php';
+require_once plugin_dir_path( __FILE__ ) . 'serve-protected-pdf.php';
 
-add_action( 'woocommerce_download_product', 'intercept_and_serve_drmed_pdf', 10, 6 );
+add_action( 'woocommerce_download_product', 'intercept_and_serve_protected_pdf', 10, 6 );
 
-function intercept_and_serve_drmed_pdf( $user_email, $order_key, $product_id, $user_id, $download_id, $order_id ) {
+function intercept_and_serve_protected_pdf( $user_email, $order_key, $product_id, $user_id, $download_id, $order_id ) {
     $logger = wc_get_logger();
     
     try {
@@ -51,7 +51,7 @@ function intercept_and_serve_drmed_pdf( $user_email, $order_key, $product_id, $u
             $logger->info(
                 sprintf('Skipping non-PDF file: %s', $file_path),
                 array(
-                    'source'     => 'pdf-secure',
+                    'source'     => 'pdf-protect',
                     'backtrace'  => false,
                     'order_id'   => $order_id,
                     'product_id' => $product_id,
@@ -62,13 +62,13 @@ function intercept_and_serve_drmed_pdf( $user_email, $order_key, $product_id, $u
         }
 
         // Serve DRM-protected file dynamically
-        serve_drmed_pdf( $file_path, $order );
+        serve_protected_pdf( $file_path, $order );
 
         // Log success
         $logger->info(
             'Served protected PDF',
             array(
-                'source'     => 'pdf-secure',
+                'source'     => 'pdf-protect',
                 'backtrace'  => false,
                 'order_id'   => $order_id,
                 'product_id' => $product_id,
@@ -86,7 +86,7 @@ function intercept_and_serve_drmed_pdf( $user_email, $order_key, $product_id, $u
                 $e->getMessage()
             ),
             array(
-                'source'     => 'pdf-secure',
+                'source'     => 'pdf-protect',
                 'backtrace'  => true,
                 'order_id'   => $order_id,
                 'product_id' => $product_id,
@@ -97,8 +97,8 @@ function intercept_and_serve_drmed_pdf( $user_email, $order_key, $product_id, $u
         
         // Show user-friendly error message
         wp_die(
-            __( 'Sorry, there was an error processing your download request. Please contact support.', 'pdf-secure' ),
-            __( 'Download Error', 'pdf-secure' ),
+            __( 'Sorry, there was an error processing your download request. Please contact support.', 'pdf-protect' ),
+            __( 'Download Error', 'pdf-protect' ),
             array( 'response' => 404 )
         );
     }

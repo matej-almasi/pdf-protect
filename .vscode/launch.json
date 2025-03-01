@@ -10,7 +10,7 @@
             "request": "launch",
             "port": 9003,
             "pathMappings": {
-                "/var/www/html/wp-content/plugins/pdf-secure": "${workspaceFolder}/"
+                "/var/www/html/wp-content/plugins/pdf-protect": "${workspaceFolder}/"
             },
             "preLaunchTask": "Run Woo Server"
         }

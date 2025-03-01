@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: PDF Data Rights Embed
-Description: This is my first plugin! It makes a new admin menu link!
+Plugin Name: PDF Data Rights Protect
+Description: Embeds a data rights notice with customer details as the second page of a served pdf digital product.
 Version: 0.1.0
-Author: Your Name
+Author: Matej Almáši
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,4 +16,4 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 // Include main functionality file
-require_once plugin_dir_path( __FILE__ ) . 'includes/pdf-secure.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/pdf-protect.php';

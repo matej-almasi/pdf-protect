@@ -1,6 +1,6 @@
 <?php
 
-function generate_drm_text($order) {
+function generate_data_rights($order) {
     $name = $order->get_billing_first_name();
     $surname = $order->get_billing_last_name();
     $customer_email = $order->get_billing_email();
