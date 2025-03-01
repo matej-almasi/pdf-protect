@@ -47,7 +47,18 @@ function intercept_and_serve_drmed_pdf( $user_email, $order_key, $product_id, $u
         }
 
         if ( pathinfo( $file_path, PATHINFO_EXTENSION ) !== 'pdf' ) {
-            throw new Exception( sprintf( 'File is not a PDF: %s', $file_path ) );
+            // Log info about skipping non-PDF file
+            $logger->info(
+                sprintf('Skipping non-PDF file: %s', $file_path),
+                array(
+                    'source'     => 'pdf-secure',
+                    'backtrace'  => false,
+                    'order_id'   => $order_id,
+                    'product_id' => $product_id,
+                    'user_id'    => $user_id
+                )
+            );
+            return; // Let WooCommerce handle non-PDF files
         }
 
         // Serve DRM-protected file dynamically
