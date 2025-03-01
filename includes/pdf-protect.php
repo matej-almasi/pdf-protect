@@ -6,6 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once plugin_dir_path( __FILE__ ) . 'serve-protected-pdf.php';
 
+function add_email_log_handler( $handlers ) {
+	$recipients = array( 'support@templateshop.com' );
+	$threshold  = 'error';
+	$handlers[] = new WC_Log_Handler_Email( $recipients, $threshold );
+	return $handlers;
+}
+add_filter( 'woocommerce_register_log_handlers', 'add_email_log_handler' );
+
 add_action( 'woocommerce_download_product', 'intercept_and_serve_protected_pdf', 10, 6 );
 
 function intercept_and_serve_protected_pdf( $user_email, $order_key, $product_id, $user_id, $download_id, $order_id ) {
