@@ -1,9 +1,13 @@
 <?php
-/*
-Plugin Name: PDF Data Rights Protect
-Description: Embeds a data rights notice with customer details as the second page of a served pdf digital product.
-Version: 0.1.0
-Author: Matej Almáši
+/**
+* Plugin Name: PDF Protect
+* Plugin URI: https://github.com/matej-almasi/pdf-protect
+* Description: Embeds a data rights notice with customer details as the second page of a served pdf digital product.
+* Version: 1.0.0
+* Author: Matej Almáši
+* Author URI: https://github.com/matej-almasi
+* License: GNU General Public License v3.0
+* License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
