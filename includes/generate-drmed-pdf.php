@@ -44,5 +44,4 @@ function serve_drmed_pdf( $original_file_path, $order ) {
     // Serve the modified file as a response
     $file_name = pathinfo( $original_file_path, PATHINFO_FILENAME );
     $pdf->Output( 'D', $file_name . '.pdf');
-    exit;
 }
