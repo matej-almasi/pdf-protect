@@ -4,6 +4,8 @@ function generate_data_rights($order) {
     $name = $order->get_billing_first_name();
     $surname = $order->get_billing_last_name();
     $customer_email = $order->get_billing_email();
+
+    // TODO: change this to match your e-shop details
     $shop_name = "templateshop.com";
     $support_email = "support@templateshop.com";
 

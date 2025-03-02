@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once plugin_dir_path( __FILE__ ) . 'serve-protected-pdf.php';
 
 function add_email_log_handler( $handlers ) {
+    // TODO: fill in your support email
 	$recipients = array( 'support@templateshop.com' );
 	$threshold  = 'error';
 	$handlers[] = new WC_Log_Handler_Email( $recipients, $threshold );

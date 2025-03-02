@@ -13,9 +13,11 @@ function serve_protected_pdf( $original_file_path, $order ) {
     // Start output buffering
     ob_start();
 	
+    // TODO: Change this to match your upload
 	// The uploads subdirectory containing our ttf font
 	define( 'YEAR_MONTH', '/2025/03/');
-		
+
+    // TODO: Change this to match your uploaded font
 	// The font file and name
     define( 'FONT_FILE', 'Oswald-Regular.ttf');
     define( 'FONT_NAME', 'Oswald');
