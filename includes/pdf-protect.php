@@ -103,7 +103,7 @@ function intercept_and_serve_protected_pdf( $user_email, $order_key, $product_id
         
         // Show user-friendly error message
         wp_die(
-            'Ospravedlňujeme sa, pri spracovaní požiadavku na stiahnutie došlo k chybe. Prosím, kontaktujte podporu na adrese: support@templateshop.com',
+            'Ospravedlňujeme sa, pri spracovaní požiadavku na stiahnutie došlo k chybe. Kontaktovali sme podporu, ktorá sa Vám v čo najkratšom čase ozve.',
             'Chyba :(',
             array( 'response' => 404 )
         );
