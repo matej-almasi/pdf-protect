@@ -20,4 +20,6 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 // Include main functionality file
-require_once plugin_dir_path( __FILE__ ) . 'includes/pdf-protect.php';
+if ( file_exists( __DIR__ . '/includes/pdf-protect.php' ) ) {
+    require_once plugin_dir_path( __FILE__ ) . 'includes/pdf-protect.php';
+}
