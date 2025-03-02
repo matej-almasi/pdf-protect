@@ -12,7 +12,17 @@ require_once 'generate-data-rights.php';
 function serve_protected_pdf( $original_file_path, $order ) {
     // Start output buffering
     ob_start();
-
+	
+	// The uploads subdirectory containing our ttf font
+	define( 'YEAR_MONTH', '/2025/03/');
+		
+	// The font file and name
+    define( 'FONT_FILE', 'Oswald-Regular.ttf');
+    define( 'FONT_NAME', 'Oswald');
+	
+    // This is used by the TFPDF when looking for fonts
+	define('_SYSTEM_TTFONTS', wp_upload_dir()['basedir'] . YEAR_MONTH);
+	
     $drm_text = generate_data_rights( $order );
 
     // Initialize FPDI
@@ -27,9 +37,9 @@ function serve_protected_pdf( $original_file_path, $order ) {
     // Add DRM text on page 2
     $pdf->SetMargins(20, 20);
     $pdf->AddPage();
-    $pdf->AddFont('DejaVu','','DejaVuSans.ttf', true);
-    $pdf->SetFont( 'DejaVu', '', 10 );
-    $pdf->MultiCell( 0, 10, $drm_text );
+    $pdf->AddFont(FONT_NAME, '' , FONT_FILE, true);
+    $pdf->SetFont(FONT_NAME, '', 10 );
+    $pdf->MultiCell( 0, 8, $drm_text );
 
     // Append the rest of the original PDF pages
     for ($i = 2; $i <= $page_count; $i++) {
