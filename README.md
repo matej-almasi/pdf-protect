@@ -68,6 +68,8 @@ Then, head over to `includes/pdf-protect.php`:
 and edit the log email recipients. This address will be used to send any
 errors that occur during plugin execution.
 
+![edit_log_recipients](https://github.com/user-attachments/assets/1d073630-2ee7-4e85-a43a-192171157aaf)
+
 ### 5. Activate the plugin
 
 :tada: All is set up and you can activate the plugin!
