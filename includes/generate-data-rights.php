@@ -9,7 +9,7 @@ function generate_data_rights($order) {
 
     $text =
     "Táto elektronická kniha bola zakúpená v internetovom kníhkupectve "
-    . "$shop_name \n\n"
+    . "$shop_name .\n\n"
     . "Meno a priezvisko kupujúceho: $name $surname \n"
     . "E-mail: $customer_email \n\n"
 
@@ -20,10 +20,10 @@ function generate_data_rights($order) {
     . "autorského práva s dôsledkami podľa platného autorského zákona a trestného "
     . "zákonníku. Automatizovaná analýza textu alebo údajov v zmysle čl. 4 "
     . "smernice 2019/790/EU a použitie tejto knihy k trénovaniu AI sú bez súhlasu "
-    . "majiteľa práv zakázané. \n"
+    . "majiteľa práv zakázané. \n\n"
     . "Ak máte akékoľvek otázky ohľadom použitia e-knihy, neváhajte nás prosím "
     . "kontaktovať na adrese \n"
-    . "$support_email";
+    . "$support_email .";
 
     return $text;
 }
