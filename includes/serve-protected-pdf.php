@@ -29,25 +29,27 @@ function serve_protected_pdf( $original_file_path, $order ) {
 
     // Initialize FPDI
     $pdf = new Tfpdf\Fpdi();
-    $pdf->AddPage();
     $page_count = $pdf->setSourceFile( $original_file_path );
-
+    
     // Import first page
     $tpl = $pdf->importPage( 1 );
+    $size = $pdf->getTemplateSize($tpl);
+    $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
     $pdf->useTemplate( $tpl );
 
     // Add DRM text on page 2
     $pdf->SetMargins(20, 20);
-    $pdf->AddPage();
+    $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
     $pdf->AddFont(FONT_NAME, '' , FONT_FILE, true);
     $pdf->SetFont(FONT_NAME, '', 10 );
     $pdf->MultiCell( 0, 8, $drm_text );
 
     // Append the rest of the original PDF pages
     for ($i = 2; $i <= $page_count; $i++) {
-        $pdf->AddPage();
         $tpl = $pdf->importPage( $i );
-        $pdf->useTemplate($tpl, 0, 0 );
+        $size = $pdf->getTemplateSize($tpl);
+        $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+        $pdf->useTemplate($tpl);
     }
 
     // Clean output buffer
